@@ -1,0 +1,6 @@
+MVI H, 80H
+MVI L, 90H
+MOV B, M
+MVI L, 0A0H
+MOV M, B
+HLT

@@ -1,0 +1,4 @@
+MVI A, 80H
+MVI B, 70H
+ADD B
+HLT

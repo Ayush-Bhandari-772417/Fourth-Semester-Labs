@@ -1,0 +1,8 @@
+MVI B, 18H
+MOV A, B
+RAL
+RLC
+MOV A, B
+RAR
+RRC
+HLT

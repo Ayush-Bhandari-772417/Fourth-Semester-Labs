@@ -1,0 +1,5 @@
+LXI H, 8080H
+MOV B, M
+MVI L, 90H
+MOV M, B 
+HLT

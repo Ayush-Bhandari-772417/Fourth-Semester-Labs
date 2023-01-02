@@ -1,0 +1,8 @@
+LXI D, 1297H
+MOV A, C
+SUB E
+MOV C, A
+MOV A, B
+SUB D
+MOV B, A
+HLT
