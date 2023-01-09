@@ -3,12 +3,12 @@
 
 struct list{
 	int info;
-	struct list *next;
+	struct list *pre, *next;
 };
 
 typedef struct list node;
 
-node* start=NULL;
+node *start=NULL, *last=NULL;
 
 void f_insert();
 void e_insert();
@@ -19,6 +19,7 @@ void e_delete();
 void m_delete();
 
 void traverse();
+void back_traverse();
 void search();
 void destroy();
 
@@ -30,10 +31,11 @@ void main() {
     printf("\n\t 4. Delete from first ");
     printf("\n\t 5. Delete from last ");
     printf("\n\t 6. Delete from specific position");
-    printf("\n\t 7. Display all values");
-    printf("\n\t 8. Search an item");
-    printf("\n\t 9. Delete list");
-    printf("\n\t 10. Exit");
+    printf("\n\t 7. Display all values from beginning");
+    printf("\n\t 8. Display all values from last");
+    printf("\n\t 9. Search an item");
+    printf("\n\t 10. Delete list");
+    printf("\n\t 11. Exit");
     while(1){
         printf("\n Enter your choice: ");
         scanf("%d", &ch);
@@ -60,18 +62,21 @@ void main() {
             traverse();
             break;
         case 8:
-            search();
+            back_traverse();
             break;
         case 9:
-            destroy();
+            search();
             break;
         case 10:
+            destroy();
+            break;
+        case 11:
             printf("\n\n\t Program terminated successfully !!!");
             break;
         default:
             printf("\t\t Please enter the correct choice!!! \n");
         }
-        if(ch==10)
+        if(ch==11)
             break;
     }
 }
@@ -79,12 +84,15 @@ void f_insert(){
 	node *item = (node*)malloc(sizeof(node));
     printf("Enter data to input: ");
     scanf("%d", &item->info);
+    item->pre=NULL;
     if(start==NULL){
         item->next=NULL;
         start=item;
+        last=item;
     }
     else{
         item->next=start;
+        start->pre=item;
         start=item;
     }
 }
@@ -92,17 +100,16 @@ void e_insert(){
 	node *item = (node*)malloc(sizeof(node));
     printf("Enter data to input: ");
     scanf("%d", &item->info);
+    item->next=NULL;
     if(start==NULL){
-        item->next=NULL;
+    	item->pre=NULL;
         start=item;
+        last=start;
     }
     else{
-        node *temp;
-        temp = start;
-        while (temp->next != NULL)
-            temp = temp->next;
-        temp->next = item;
-        item->next = NULL;
+    	item->pre=last;
+    	last->next=item;
+    	last=item;
     }
 }
 void m_insert(){
@@ -116,7 +123,9 @@ void m_insert(){
     temp=start;
 	if(n==1){
     	item->next=start;
+    	start->pre=item;
     	start=item;
+    	start->pre=NULL;
     }
     else{
     	while (temp->next!=NULL){
@@ -126,7 +135,12 @@ void m_insert(){
             count++;
         }
 		if(count==(n-1)){
+			item->pre=temp;
 			item->next=temp->next;
+			if(temp->next!=NULL)
+				temp->next->pre=item;
+			else
+				last=item;
 			temp->next=item;
 		}
 		else
@@ -146,7 +160,8 @@ void f_delete(){
     else{
         ptr=start;
         start=start->next;
-        printf("The deleted data is : %d", ptr->info);
+        start->pre=NULL;
+		printf("The deleted data is : %d", ptr->info);
         free(ptr);
     }
 }
@@ -160,12 +175,9 @@ void e_delete(){
         start=NULL;
     }
     else{
-        ptr=start;
-        while (ptr->next != NULL){
-            loc = ptr;
-            ptr = ptr->next;
-        }
-        loc->next = NULL;
+    	node *ptr=last;
+    	last=last->pre;
+        last->next = NULL;
         printf("The deleted data is: %d", ptr->info);
         free(ptr);
     }
@@ -187,6 +199,7 @@ void m_delete(){
 		else if(n==1){
 			ptr=start;
 			start=start->next;
+			start->pre=NULL;
 			printf("The deleted item is : %d", ptr->info);
 			free(ptr);
 		}
@@ -200,6 +213,10 @@ void m_delete(){
             }
             if(count==n){
             	temp->next=ptr->next;
+            	if(ptr->next!=NULL)
+            		ptr->next->pre=temp;
+            	else
+            		last=ptr->pre;
             	printf("Deleted item is: %d", ptr->info);
             	free(ptr);
             }
@@ -219,6 +236,19 @@ void traverse(){
     	while (temp != NULL){
     		printf("\n\t %d", temp->info);
             temp=temp->next;
+        }
+    }
+}
+void back_traverse(){
+	node *temp;
+    temp=last;
+    if(temp==NULL)
+        printf("Empty list");
+    else{
+    	printf("Elements of list are :- ");
+    	while (temp!= NULL){
+    		printf("\n\t %d", temp->info);
+            temp=temp->pre;
         }
     }
 }
