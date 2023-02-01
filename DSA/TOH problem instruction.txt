@@ -1,0 +1,5 @@
+1. WAP for tower of hanri to move peg from source to destination using Recursion
+2. WAP to insert elements to BST and traverse that tree in Preorder, Inorder and Postorder
+   a) Preorder traversal
+   b) Inorder traversal
+   c) Postorder traversal

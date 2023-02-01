@@ -27,7 +27,7 @@ void main() {
     int ch;
     printf("\n\n\n\t 1. Insert at first ");
     printf("\n\t 2. Insert at last");
-    printf("\n\t 3. Insert at specified positon ");
+    printf("\n\t 3. Insert at specified position ");
     printf("\n\t 4. Delete from first ");
     printf("\n\t 5. Delete from last ");
     printf("\n\t 6. Delete from specific position");
@@ -95,6 +95,7 @@ void f_insert(){
         start->pre=item;
         start=item;
     }
+    printf("Node inserted");
 }
 void e_insert(){
 	node *item = (node*)malloc(sizeof(node));
@@ -111,12 +112,13 @@ void e_insert(){
     	last->next=item;
     	last=item;
     }
+    printf("Node inserted");
 }
 void m_insert(){
 	int n, count=1;
     node *item, *temp;
     item=(node*)malloc(sizeof(node));
-    printf("Enter the positon : ");
+    printf("Enter the position : ");
     scanf("%d", &n);
     printf("Enter data to input : ");
     scanf("%d", &item->info);
@@ -126,6 +128,7 @@ void m_insert(){
     	start->pre=item;
     	start=item;
     	start->pre=NULL;
+    	printf("Node inserted");
     }
     else{
     	while (temp->next!=NULL){
@@ -142,6 +145,7 @@ void m_insert(){
 			else
 				last=item;
 			temp->next=item;
+			printf("Node inserted");
 		}
 		else
 		   	printf("Position undefined");
@@ -188,11 +192,11 @@ void m_delete(){
     if(start==NULL)
         printf("Empty list");
     else{
-        printf("Enter the positon : ");
+        printf("Enter the position : ");
         scanf("%d", &n);
         ptr=start;
         if((start->next==NULL) && (n==1)){
-        	printf("The deleted item is: %d", start->info);
+        	printf("The deleted data is: %d", start->info);
         	free(start);
         	start=NULL;
         }
@@ -200,7 +204,7 @@ void m_delete(){
 			ptr=start;
 			start=start->next;
 			start->pre=NULL;
-			printf("The deleted item is : %d", ptr->info);
+			printf("The deleted data is : %d", ptr->info);
 			free(ptr);
 		}
         else{
@@ -217,11 +221,11 @@ void m_delete(){
             		ptr->next->pre=temp;
             	else
             		last=ptr->pre;
-            	printf("Deleted item is: %d", ptr->info);
+            	printf("Deleted data is: %d", ptr->info);
             	free(ptr);
             }
             else
-               	printf("Invaid position");
+               	printf("Invalid position");
         }
     }
 }
@@ -232,7 +236,7 @@ void traverse(){
     if(temp==NULL)
         printf("Empty list");
     else{
-    	printf("Elements of list are :- ");
+    	printf("Elements of list in usual order are :- ");
     	while (temp != NULL){
     		printf("\n\t %d", temp->info);
             temp=temp->next;
@@ -245,7 +249,7 @@ void back_traverse(){
     if(temp==NULL)
         printf("Empty list");
     else{
-    	printf("Elements of list are :- ");
+    	printf("Elements of list in reverse order are :- ");
     	while (temp!= NULL){
     		printf("\n\t %d", temp->info);
             temp=temp->pre;

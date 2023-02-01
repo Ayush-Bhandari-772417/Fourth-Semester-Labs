@@ -1,0 +1,15 @@
+.MODEL SMALL
+.STACK 32
+
+.DATA
+str DB "Programming is Fun $"
+
+.CODE
+MOV AX, @DATA
+MOV DS, AX
+LEA DX, str
+MOV AH, 09H
+INT 21H
+MOV AH, 4CH
+INT 21H
+END

@@ -1,0 +1,23 @@
+.MODEL SMALL
+.STACK 32
+
+.DATA
+num1 DB 25
+num2 DB 1
+tbl DB 10 DUP(?)
+
+.CODE
+MOV AX, @DATA
+MOV DS, AX
+MOV BX, 0000
+MOV CX, 10
+L1:
+	MOV AL, num1
+	MUL num2
+	MOV tbl[BX], AL
+	INC BX
+	INC num2
+	LOOP L1
+	MOV AX, 4C00H
+	INT 21H
+END
