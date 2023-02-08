@@ -1,0 +1,53 @@
+.MODEL SMALL
+.STACK 32
+
+.DATA
+STRLEN DB 14
+STRSZ DB 2
+STR DB 14 DUP('$')
+STRTRM DB '$'
+
+.CODE
+MOV AX, @DATA
+MOV DS, AX
+
+;reading from user
+LEA DX, STRLEN
+MOV AH, 0AH
+INT 21H
+
+;clearing the screen
+MOV AH, 00H
+MOV AL, 03H
+INT 10H
+
+;selecting screen attribute
+MOV AL, 00H
+MOV CH, 00H
+MOV CL, 30
+MOV DH, 20
+MOV DL, 50
+MOV BH, 61H
+MOV AH, 06H
+INT 10H
+
+;move cursor
+MOV BH, 00H
+MOV DH, 00H
+MOV AX, 80
+SUB AL, STRSZ
+MOV DL, 02H
+DIV DL
+MOV DL, AL
+MOV AX, 0200H
+INT 10H
+
+;displaying string
+LEA DX, STR
+MOV AH, 09H
+INT 21H
+
+;ending the program
+MOV AH, 4CH
+INT 21H
+END

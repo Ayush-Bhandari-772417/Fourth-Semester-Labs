@@ -1,0 +1,52 @@
+.MODEL SMALL
+.STACK 64
+
+.DATA
+STRLEN DB 24
+STRSZ DB ?
+STR DB 24 DUP('$')
+STRTRM DB '$'
+
+.CODE
+MOV AX, @DATA
+MOV DS, AX
+
+;reading string
+LEA DX, STRLEN
+MOV AH, 0AH
+INT 21H
+
+;clearing the screen
+MOV Ax, 0003H
+INT 10H
+
+
+;initializing
+LEA SI, STR
+MOV CH, 00H
+MOV CL, STRSZ
+MOV DX, 0000H
+
+;move cursor
+MOV BH, 00H
+MOV DH, 02
+MOV DL, 40
+
+L1:
+MOV AH, 02H
+INT 10H
+PUSH DX
+
+;displaying
+MOV DL, [SI]
+MOV AH, 02H
+INT 21H
+POP DX
+INC DH
+INC SI
+LOOP L1
+
+;ending the program
+MOV AH, 4CH
+INT 21H
+END

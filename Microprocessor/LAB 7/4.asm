@@ -1,0 +1,40 @@
+.MODEL SMALL
+.STACK 32
+
+.DATA
+STRLEN DW 255
+STRSZ DB 0
+STR DB 255 DUP('$')
+
+.CODE
+	MOV AX, @DATA
+	MOV DS, AX
+
+;reading the string
+	MOV CX, STRLEN
+	LEA BX, STR
+L1:
+	MOV AH, 01H
+	INT 21H
+	MOV BYTE PTR[BX], AL
+	INC BX
+	INC STRSZ
+	CMP AL, 0DH
+	JE L2
+	LOOP L1
+
+;writting the string
+L2:
+	MOV CL, STRSZ
+	LEA BX, STR
+L3:
+	MOV AH, 02H
+	MOV DL, BYTE PTR[BX]
+	INT 21H
+	INC BX
+	LOOP L3
+
+;ending the program
+	MOV AH, 4CH
+	INT 21H
+END
